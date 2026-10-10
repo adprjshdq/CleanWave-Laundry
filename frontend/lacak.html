@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lacak Status Pesanan — CleanWave Laundry</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon"><i class="fa-solid fa-water"></i></div>
+        <div class="brand-text">Clean<span>Wave</span></div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="layanan.html">Daftar Layanan</a></li>
+        <li><a href="lacak.html" class="active">Lacak Pesanan</a></li>
+      </ul>
+
+      <div>
+        <a href="order.html" class="btn btn-primary">Pesan Sekarang</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container" style="max-w: 800px;">
+      <div class="section-title-wrap">
+        <span class="section-tag">Pelacakan Real-Time</span>
+        <h1 class="section-title">Lacak Status Pengerjaan Laundry</h1>
+        <p style="color: var(--slate-500); margin-top: 0.5rem;">Ketahui posisi pakaian Anda dari pengambilan hingga
+          pengantaran rapi.</p>
+
+        <!-- Search Box -->
+        <div style="display: flex; gap: 0.5rem; max-width: 500px; margin: 2rem auto 0;">
+          <input type="text" id="orderCodeInput" value="CW-20261010-0042"
+            placeholder="Masukkan Kode Order (e.g. CW-20261010-0042)..."
+            style="flex: 1; padding: 0.85rem 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--slate-300); font-size: 0.9rem; font-family: monospace;">
+          <button type="button" id="trackBtn" class="btn btn-primary"><i class="fa-solid fa-location-crosshairs"></i>
+            Lacak</button>
+        </div>
+      </div>
+
+      <!-- Tracking Card Result -->
+      <div id="trackingResult" class="card" style="margin-top: 2rem; display: block;">
+        <div
+          style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--slate-200); padding-bottom: 1.25rem;">
+          <div>
+            <span
+              style="font-size: 0.75rem; text-transform: uppercase; color: var(--slate-400); font-weight: 700;">Nomor
+              Pesanan</span>
+            <h2 id="dispOrderCode" style="font-family: monospace; font-size: 1.75rem; color: var(--primary-600);">
+              CW-20261010-0042</h2>
+            <p style="font-size: 0.8rem; color: var(--slate-400);">Dipesan: Hari ini, 10:30 WIB • Antar-Jemput Kurir</p>
+          </div>
+          <div>
+            <span id="dispStatusBadge"
+              style="background: var(--primary-50); color: var(--primary-600); padding: 0.4rem 1rem; border-radius: var(--radius-full); font-size: 0.85rem; font-weight: 700; border: 1px solid var(--primary-200);">
+              <i class="fa-solid fa-soap"></i> Sedang Dicuci & Setrika
+            </span>
+          </div>
+        </div>
+
+        <!-- 5-Step Timeline -->
+        <div class="timeline">
+          <div class="timeline-step completed">
+            <div class="step-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+            <strong style="font-size: 0.8rem; display: block;">Dikonfirmasi</strong>
+            <span style="font-size: 0.7rem; color: var(--slate-400);">Selesai</span>
+          </div>
+          <div class="timeline-step completed">
+            <div class="step-icon"><i class="fa-solid fa-truck-pickup"></i></div>
+            <strong style="font-size: 0.8rem; display: block;">Dijemput</strong>
+            <span style="font-size: 0.7rem; color: var(--slate-400);">Selesai</span>
+          </div>
+          <div class="timeline-step active">
+            <div class="step-icon"><i class="fa-solid fa-soap"></i></div>
+            <strong style="font-size: 0.8rem; display: block; color: var(--primary-600);">Pencucian</strong>
+            <span style="font-size: 0.7rem; color: var(--accent-600); font-weight: 700;">Sedang Berjalan</span>
+          </div>
+          <div class="timeline-step">
+            <div class="step-icon"><i class="fa-solid fa-box"></i></div>
+            <strong style="font-size: 0.8rem; display: block; color: var(--slate-400);">Siap Antar</strong>
+            <span style="font-size: 0.7rem; color: var(--slate-400);">-</span>
+          </div>
+          <div class="timeline-step">
+            <div class="step-icon"><i class="fa-solid fa-circle-check"></i></div>
+            <strong style="font-size: 0.8rem; display: block; color: var(--slate-400);">Selesai</strong>
+            <span style="font-size: 0.7rem; color: var(--slate-400);">-</span>
+          </div>
+        </div>
+
+        <!-- Details Grid -->
+        <div
+          style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--slate-100); font-size: 0.875rem;">
+          <div>
+            <h4 style="margin-bottom: 0.75rem;"><i class="fa-solid fa-list-check text-blue-600"></i> Rincian Pakaian
+            </h4>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; color: var(--slate-600);">
+              <span>1x Cuci & Spa Sepatu</span>
+              <strong>Rp 35.000</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; color: var(--slate-600);">
+              <span>1x Bed Cover King Size</span>
+              <strong>Rp 30.000</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; color: var(--slate-600);">
+              <span>Biaya Antar-Jemput</span>
+              <strong>Rp 10.000</strong>
+            </div>
+          </div>
+
+          <div>
+            <h4 style="margin-bottom: 0.75rem;"><i class="fa-solid fa-info-circle text-blue-600"></i> Informasi Petugas
+            </h4>
+            <p style="color: var(--slate-600); margin-bottom: 0.25rem;">Petugas Pencuci: <strong>Budi Santoso (Senior
+                Specialist)</strong></p>
+            <p style="color: var(--slate-600); margin-bottom: 0.25rem;">Status Bayar: <strong
+                style="color: var(--emerald-600);">Lunas (Transfer QRIS)</strong></p>
+            <p style="color: var(--slate-600);">Estimasi Pengantaran: <strong>Besok Sore (16:00 WIB)</strong></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-bottom">
+      <p>© 2026 CleanWave Laundry Inc.</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById('trackBtn').addEventListener('click', () => {
+      const code = document.getElementById('orderCodeInput').value.trim();
+      document.getElementById('dispOrderCode').textContent = code || 'CW-20261010-0042';
+      alert('Informasi status untuk ' + (code || 'CW-20261010-0042') + ' diperbarui!');
+    });
+  </script>
+</body>
+
+</html>

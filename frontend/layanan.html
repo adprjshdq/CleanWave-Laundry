@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Layanan & Tarif — CleanWave Laundry</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar">
+    ✨ Gunakan kupon <span class="coupon-badge">CLEANWAVE10</span> untuk potongan diskon 10%
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon"><i class="fa-solid fa-water"></i></div>
+        <div class="brand-text">Clean<span>Wave</span></div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="layanan.html" class="active">Daftar Layanan</a></li>
+        <li><a href="lacak.html">Lacak Pesanan</a></li>
+      </ul>
+
+      <div style="display: flex; gap: 0.75rem;">
+        <a href="order.html" class="btn btn-primary"><i class="fa-solid fa-basket-shopping"></i> Pesan Sekarang</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="section">
+    <div class="container">
+      <div class="section-title-wrap">
+        <span class="section-tag">Tarif Transparan</span>
+        <h1 class="section-title">Katalog Layanan CleanWave</h1>
+        <p style="color: var(--slate-500); margin-top: 0.5rem;">Standar pencucian higienis dengan harga terjangkau per
+          kilogram maupun per item.</p>
+      </div>
+
+      <div id="servicesContainer" class="card-grid">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-bottom">
+      <p>© 2026 CleanWave Laundry Inc.</p>
+      <p>Frontend HTML/CSS/JS</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    const container = document.getElementById('servicesContainer');
+    let html = '';
+    CleanWave.services.forEach(s => {
+      html += `
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <span style="background: var(--primary-50); color: var(--primary-600); padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700;">${s.category}</span>
+              <span style="color: var(--slate-400); font-size: 0.75rem;"><i class="fa-regular fa-clock"></i> ${s.days} Hari</span>
+            </div>
+            <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">${s.name}</h3>
+            <p style="color: var(--slate-500); font-size: 0.85rem; line-height: 1.5; margin-bottom: 1.5rem;">${s.desc}</p>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--slate-100); padding-top: 1rem;">
+            <div>
+              <span class="service-price">${formatRupiah(s.price)}</span>
+              <span style="font-size: 0.75rem; color: var(--slate-400);">/ ${s.unit}</span>
+            </div>
+            <a href="order.html" class="btn btn-primary" style="padding: 0.4rem 0.9rem; font-size: 0.8rem;">Pilih</a>
+          </div>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  </script>
+</body>
+
+</html>

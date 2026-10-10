@@ -1,0 +1,38 @@
+
+# Laravel environment and secrets
+/backend/.env
+/backend/.env.*
+!/backend/.env.example
+
+# Frontend environment and secrets
+/frontend/.env
+/frontend/.env.*
+!/frontend/.env.example
+
+# Dependencies
+/backend/vendor/
+/frontend/node_modules/
+
+# Build output
+/frontend/dist/
+/frontend/build/
+
+# Laravel generated files
+/backend/storage/*.key
+/backend/storage/logs/*
+/backend/bootstrap/cache/*.php
+
+# IDE and operating system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+/backend/node_modules/
+
+*.sqlite
+
+*.sqlite3
+
+/backend/.phpunit.result.cache
+
+/frontend/node_modules/
