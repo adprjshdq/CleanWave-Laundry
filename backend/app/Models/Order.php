@@ -13,7 +13,7 @@ class Order extends Model
     protected $fillable = [
         'customer_id', 'employee_id', 'address_id', 'coupon_id',
         'order_code', 'status', 'pickup_method', 'pickup_date',
-        'delivery_date', 'notes', 'subtotal', 'discount', 'delivery_fee', 'total',
+        'delivery_date', 'notes', 'subtotal', 'discount', 'points_redeemed', 'delivery_fee', 'total',
     ];
 
     protected $casts = [
@@ -21,6 +21,7 @@ class Order extends Model
         'delivery_date' => 'datetime',
         'subtotal'      => 'decimal:2',
         'discount'      => 'decimal:2',
+        'points_redeemed' => 'integer',
         'delivery_fee'  => 'decimal:2',
         'total'         => 'decimal:2',
     ];

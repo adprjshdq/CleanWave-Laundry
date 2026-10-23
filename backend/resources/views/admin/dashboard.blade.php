@@ -4,10 +4,10 @@
 
 @section('content')
 <div class="space-y-8">
-    
+
     <!-- Top KPI Cards Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        
+
         <!-- Total Orders -->
         <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
@@ -60,7 +60,7 @@
 
     <!-- Main Content: Recent Orders Table & Quick Info -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
+
         <!-- Recent Orders (8 cols) -->
         <div class="lg:col-span-8 bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-sm space-y-4">
             <div class="flex items-center justify-between border-b border-slate-100 pb-4">
@@ -87,35 +87,35 @@
                     </thead>
                     <tbody class="divide-y divide-slate-100">
                         @forelse($recentOrders as $order)
-                            <tr class="hover:bg-slate-50 transition">
-                                <td class="py-3 px-2 font-mono font-bold text-brand-600">
-                                    <a href="{{ route('admin.orders.show', $order->id) }}">{{ $order->order_code }}</a>
-                                </td>
-                                <td class="py-3 px-2">
-                                    <span class="font-bold text-slate-900 block">{{ $order->customer->user->name ?? 'Pelanggan' }}</span>
-                                    <span class="text-[11px] text-slate-400">{{ $order->customer->user->phone ?? '-' }}</span>
-                                </td>
-                                <td class="py-3 px-2 text-slate-600">
-                                    {{ count($order->items) }} Layanan
-                                </td>
-                                <td class="py-3 px-2 font-bold text-slate-900">
-                                    {{ $order->formatted_total }}
-                                </td>
-                                <td class="py-3 px-2">
-                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 text-brand-700">
-                                        {{ $order->status_label }}
-                                    </span>
-                                </td>
-                                <td class="py-3 px-2 text-right">
-                                    <a href="{{ route('admin.orders.show', $order->id) }}" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] transition">
-                                        Kelola
-                                    </a>
-                                </td>
-                            </tr>
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="py-3 px-2 font-mono font-bold text-brand-600">
+                                <a href="{{ route('admin.orders.show', $order->id) }}">{{ $order->order_code }}</a>
+                            </td>
+                            <td class="py-3 px-2">
+                                <span class="font-bold text-slate-900 block">{{ $order->customer->user->name ?? 'Pelanggan' }}</span>
+                                <span class="text-[11px] text-slate-400">{{ $order->customer->user->phone ?? '-' }}</span>
+                            </td>
+                            <td class="py-3 px-2 text-slate-600">
+                                {{ count($order->items) }} Layanan
+                            </td>
+                            <td class="py-3 px-2 font-bold text-slate-900">
+                                {{ $order->formatted_total }}
+                            </td>
+                            <td class="py-3 px-2">
+                                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 text-brand-700">
+                                    {{ $order->status_label }}
+                                </span>
+                            </td>
+                            <td class="py-3 px-2 text-right">
+                                <a href="{{ route('admin.orders.show', $order->id) }}" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] transition">
+                                    Kelola
+                                </a>
+                            </td>
+                        </tr>
                         @empty
-                            <tr>
-                                <td colspan="6" class="text-center py-6 text-slate-400">Belum ada pesanan masuk.</td>
-                            </tr>
+                        <tr>
+                            <td colspan="6" class="text-center py-6 text-slate-400">Belum ada pesanan masuk.</td>
+                        </tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -124,7 +124,7 @@
 
         <!-- Quick Summary & Actions (4 cols) -->
         <div class="lg:col-span-4 space-y-6">
-            
+
             <!-- Quick Actions Card -->
             <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm space-y-4">
                 <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">Aksi Cepat</h3>
@@ -160,7 +160,7 @@
                     </div>
                     <div class="flex justify-between items-center text-slate-600">
                         <span>Siap Dikirim / Diantar:</span>
-                        <span class="font-bold text-indigo-600">{{ ($statusCounts['ready'] ?? 0) + ($statusCounts['on_delivery'] ?? 0) }}</span>
+                        <span class="font-bold text-accent-600">{{ ($statusCounts['ready'] ?? 0) + ($statusCounts['on_delivery'] ?? 0) }}</span>
                     </div>
                     <div class="flex justify-between items-center text-slate-600">
                         <span>Selesai:</span>

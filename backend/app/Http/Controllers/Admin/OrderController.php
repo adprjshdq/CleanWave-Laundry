@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Employee;
 use App\Services\OrderService;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrderController extends Controller
 {
@@ -29,10 +30,10 @@ class OrderController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('order_code', 'like', "%{$search}%")
-                  ->orWhereHas('customer.user', function ($uq) use ($search) {
-                      $uq->where('name', 'like', "%{$search}%")
-                         ->orWhere('phone', 'like', "%{$search}%");
-                  });
+                    ->orWhereHas('customer.user', function ($uq) use ($search) {
+                        $uq->where('name', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%");
+                    });
             });
         }
 
@@ -63,5 +64,15 @@ class OrderController extends Controller
         $this->orderService->updateStatus($order, $request->status, $request->employee_id);
 
         return back()->with('success', "Status pesanan {$order->order_code} berhasil diperbarui.");
+    }
+
+    public function invoice($id)
+    {
+        $order = Order::with(['customer.user', 'items.service', 'payment', 'coupon', 'address'])
+            ->findOrFail($id);
+
+        $pdf = Pdf::loadView('pdf.invoice', compact('order'))->setPaper('a4');
+
+        return $pdf->download('Invoice-' . $order->order_code . '.pdf');
     }
 }

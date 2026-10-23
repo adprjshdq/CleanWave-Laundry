@@ -6,17 +6,17 @@
     <div class="absolute inset-0 bg-gradient-to-b from-brand-950/80 via-slate-900/90 to-slate-900 pointer-events-none"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
+
             <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-500/20 border border-brand-400/30 text-accent-300 text-xs sm:text-sm font-semibold backdrop-blur-md">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                     <span>Layanan Laundry #1 Terintegrasi & Siap Antar-Jemput</span>
                 </div>
-                
+
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
                     Pakaian Bersih, Harum & Rapi <span class="bg-gradient-to-r from-accent-400 via-sky-300 to-brand-300 bg-clip-text text-transparent">Tanpa Keluar Rumah</span>
                 </h1>
-                
+
                 <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
                     Serahkan cucian harian, bed cover tebal, hingga sepatu kesayangan Anda pada CleanWave. Pantau status cucian secara real-time dari jemput hingga antar!
                 </p>
@@ -55,7 +55,7 @@
                 <div class="relative mx-auto max-w-md lg:max-w-none">
                     <!-- Glow effect -->
                     <div class="absolute -inset-4 bg-gradient-to-r from-brand-500 to-accent-500 rounded-3xl opacity-30 blur-2xl"></div>
-                    
+
                     <div class="relative rounded-3xl bg-slate-800/90 border border-slate-700/80 p-6 sm:p-8 backdrop-blur-xl shadow-2xl text-slate-100">
                         <div class="flex items-center justify-between pb-6 border-b border-slate-700/60">
                             <div class="flex items-center gap-3">
@@ -174,7 +174,7 @@
 
             <!-- Step 3 -->
             <div class="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-sm hover:shadow-md transition text-center group">
-                <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl mx-auto mb-6 group-hover:bg-indigo-600 group-hover:text-white transition duration-300">
+                <div class="w-16 h-16 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-2xl mx-auto mb-6 group-hover:bg-sky-600 group-hover:text-white transition duration-300">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </div>
                 <span class="inline-block px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-xs font-bold mb-3">Langkah 3</span>
@@ -212,31 +212,31 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach($featuredServices as $service)
-                <div class="rounded-3xl border border-slate-200 p-7 bg-slate-50/50 hover:bg-white hover:border-brand-300 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-brand-700">
-                                {{ $service->category->name ?? 'Layanan' }}
-                            </span>
-                            <span class="text-xs text-slate-500 flex items-center gap-1 font-medium">
-                                <i class="fa-regular fa-clock"></i> {{ $service->estimated_days }} Hari
-                            </span>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-900 group-hover:text-brand-600 transition">{{ $service->name }}</h3>
-                        <p class="text-sm text-slate-600 mt-2 leading-relaxed">{{ $service->description }}</p>
+            <div class="rounded-3xl border border-slate-200 p-7 bg-slate-50/50 hover:bg-white hover:border-brand-300 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-brand-700">
+                            {{ $service->category->name ?? 'Layanan' }}
+                        </span>
+                        <span class="text-xs text-slate-500 flex items-center gap-1 font-medium">
+                            <i class="fa-regular fa-clock"></i> {{ $service->estimated_days }} Hari
+                        </span>
                     </div>
-
-                    <div class="pt-6 mt-6 border-t border-slate-200/80 flex items-center justify-between">
-                        <div>
-                            <span class="text-xs text-slate-700 font-semibold block">Harga</span>
-                            <span class="text-2xl font-extrabold text-brand-600">{{ $service->formatted_price }}</span>
-                            <span class="text-xs text-slate-500">/ {{ $service->unit }}</span>
-                        </div>
-                        <a href="{{ route('customer.orders.create') }}" class="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs transition flex items-center gap-2">
-                            <span>Pilih</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </a>
-                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-brand-600 transition">{{ $service->name }}</h3>
+                    <p class="text-sm text-slate-600 mt-2 leading-relaxed">{{ $service->description }}</p>
                 </div>
+
+                <div class="pt-6 mt-6 border-t border-slate-200/80 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs text-slate-700 font-semibold block">Harga</span>
+                        <span class="text-2xl font-extrabold text-brand-600">{{ $service->formatted_price }}</span>
+                        <span class="text-xs text-slate-500">/ {{ $service->unit }}</span>
+                    </div>
+                    <a href="{{ route('customer.orders.create') }}" class="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs transition flex items-center gap-2">
+                        <span>Pilih</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </a>
+                </div>
+            </div>
             @endforeach
         </div>
     </div>
@@ -264,29 +264,29 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             @forelse($reviews as $rev)
-                <div class="rounded-3xl bg-slate-800/80 border border-slate-700 p-8 flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center gap-1 text-amber-400 text-sm mb-4">
-                            @for($i = 0; $i < $rev->rating; $i++)
-                                <i class="fa-solid fa-star"></i>
+            <div class="rounded-3xl bg-slate-800/80 border border-slate-700 p-8 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-1 text-amber-400 text-sm mb-4">
+                        @for($i = 0; $i < $rev->rating; $i++)
+                            <i class="fa-solid fa-star"></i>
                             @endfor
-                        </div>
-                        <p class="text-slate-300 text-sm italic leading-relaxed">
-                            "{{ $rev->comment ?? 'Pelayanan sangat memuaskan, pakaian wangi dan bersih sekali!' }}"
-                        </p>
                     </div>
-                    <div class="flex items-center gap-3 pt-6 mt-6 border-t border-slate-700/80">
-                        <div class="w-10 h-10 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center text-sm">
-                            {{ substr($rev->customer->user->name ?? 'User', 0, 1) }}
-                        </div>
-                        <div>
-                            <p class="text-sm font-bold text-white">{{ $rev->customer->user->name ?? 'Pelanggan Setia' }}</p>
-                            <p class="text-xs text-slate-400">Order Terverifikasi</p>
-                        </div>
+                    <p class="text-slate-300 text-sm italic leading-relaxed">
+                        "{{ $rev->comment ?? 'Pelayanan sangat memuaskan, pakaian wangi dan bersih sekali!' }}"
+                    </p>
+                </div>
+                <div class="flex items-center gap-3 pt-6 mt-6 border-t border-slate-700/80">
+                    <div class="w-10 h-10 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center text-sm">
+                        {{ substr($rev->customer->user->name ?? 'User', 0, 1) }}
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-white">{{ $rev->customer->user->name ?? 'Pelanggan Setia' }}</p>
+                        <p class="text-xs text-slate-400">Order Terverifikasi</p>
                     </div>
                 </div>
+            </div>
             @empty
-                <div class="col-span-3 text-center text-slate-400">Belum ada ulasan yang ditampilkan.</div>
+            <div class="col-span-3 text-center text-slate-400">Belum ada ulasan yang ditampilkan.</div>
             @endforelse
         </div>
     </div>

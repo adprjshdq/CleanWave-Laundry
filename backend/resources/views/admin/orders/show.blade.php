@@ -9,6 +9,9 @@
         <a href="{{ route('admin.orders.index') }}" class="text-xs font-semibold text-brand-600 hover:underline flex items-center gap-1">
             <i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar Pesanan
         </a>
+        <a href="{{ route('admin.orders.invoice', $order->id) }}" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-file-arrow-down"></i> Download Invoice PDF
+        </a>
     </div>
 
     <!-- Update Status Card -->
@@ -190,6 +193,12 @@
             <div class="flex justify-between text-emerald-600 font-bold">
                 <span>Diskon Kupon:</span>
                 <span>- Rp {{ number_format($order->discount, 0, ',', '.') }}</span>
+            </div>
+            @endif
+            @if($order->points_redeemed > 0)
+            <div class="flex justify-between text-emerald-600 font-bold">
+                <span>Tukar Poin ({{ number_format($order->points_redeemed, 0, ',', '.') }} poin):</span>
+                <span>- Rp {{ number_format($order->points_redeemed, 0, ',', '.') }}</span>
             </div>
             @endif
             <div class="flex justify-between text-slate-600">

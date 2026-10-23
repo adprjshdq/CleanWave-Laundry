@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'CleanWave — Sistem Laundry Online Cepat & Terpercaya' }}</title>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
     <!-- Tailwind CSS CDN Fallback + Vite -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -32,11 +33,19 @@
                             700: '#1d4ed8',
                             800: '#1e40af',
                             900: '#1e3a8a',
+                            950: '#172554',
                         },
                         accent: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
                             400: '#38bdf8',
                             500: '#0ea5e9',
                             600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
                         }
                     },
                     fontFamily: {
@@ -47,15 +56,26 @@
             }
         }
     </script>
-    
+
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        h1, h2, h3, h4, .font-heading { font-family: 'Outfit', sans-serif; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .font-heading {
+            font-family: 'Outfit', sans-serif;
+        }
+
         .glass-header {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
+
         .hero-pattern {
             background-color: #0f172a;
             background-image: radial-gradient(rgba(37, 99, 235, 0.25) 1px, transparent 1px);
@@ -64,6 +84,7 @@
     </style>
     @stack('styles')
 </head>
+
 <body class="bg-slate-50 text-slate-800 antialiased flex flex-col min-h-screen">
 
     <!-- Top Announcement Bar -->
@@ -100,49 +121,90 @@
                 <!-- Auth Buttons -->
                 <div class="hidden md:flex items-center gap-3">
                     @auth
-                        @if(auth()->user()->isAdmin())
-                            <a href="{{ route('admin.dashboard') }}" class="px-4 py-2.5 rounded-xl bg-purple-50 text-purple-700 hover:bg-purple-100 font-semibold text-sm transition flex items-center gap-2 border border-purple-200">
-                                <i class="fa-solid fa-gauge-high"></i> Panel Admin
-                            </a>
-                        @else
-                            <a href="{{ route('customer.orders.index') }}" class="px-4 py-2.5 rounded-xl bg-blue-50 text-brand-700 hover:bg-blue-100 font-semibold text-sm transition flex items-center gap-2 border border-blue-200">
-                                <i class="fa-solid fa-receipt"></i> Pesanan Saya
-                            </a>
-                            <a href="{{ route('customer.orders.create') }}" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-accent-600 text-white font-semibold text-sm shadow-md shadow-brand-500/25 hover:shadow-lg hover:shadow-brand-500/40 hover:-translate-y-0.5 transition duration-200 flex items-center gap-2">
-                                <i class="fa-solid fa-plus-circle"></i> Buat Pesanan
-                            </a>
-                        @endif
-
-                        <!-- User Profile Dropdown -->
-                        <div class="relative group">
-                            <button class="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-full border border-slate-200 hover:border-slate-300 bg-white">
-                                <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" class="w-8 h-8 rounded-full object-cover">
-                                <span class="text-xs font-semibold text-slate-700 max-w-[100px] truncate">{{ auth()->user()->name }}</span>
-                                <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
-                            </button>
-                            <div class="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 hidden group-hover:block transition duration-200">
-                                <div class="px-4 py-2 border-b border-slate-100">
-                                    <p class="text-xs font-bold text-slate-900 truncate">{{ auth()->user()->name }}</p>
-                                    <p class="text-[11px] text-slate-500 truncate">{{ auth()->user()->email }}</p>
-                                </div>
-                                <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50">
-                                    <i class="fa-regular fa-user mr-2 text-slate-400"></i> Edit Profil
-                                </a>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="w-full text-left px-4 py-2 text-xs font-medium text-rose-600 hover:bg-rose-50">
-                                        <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Keluar
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
+                    @if(auth()->user()->isAdmin())
+                    <a href="{{ route('admin.dashboard') }}" class="px-4 py-2.5 rounded-xl bg-brand-50 text-brand-700 hover:bg-brand-100 font-semibold text-sm transition flex items-center gap-2 border border-brand-200">
+                        <i class="fa-solid fa-gauge-high"></i> Panel Admin
+                    </a>
                     @else
-                        <a href="{{ route('login') }}" class="px-4 py-2.5 rounded-xl text-slate-700 hover:text-brand-600 font-semibold text-sm transition">
-                            Masuk
+                    <a href="{{ route('customer.orders.index') }}" class="px-4 py-2.5 rounded-xl bg-blue-50 text-brand-700 hover:bg-blue-100 font-semibold text-sm transition flex items-center gap-2 border border-blue-200">
+                        <i class="fa-solid fa-receipt"></i> Pesanan Saya
+                    </a>
+                    <a href="{{ route('customer.orders.create') }}" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-accent-600 text-white font-semibold text-sm shadow-md shadow-brand-500/25 hover:shadow-lg hover:shadow-brand-500/40 hover:-translate-y-0.5 transition duration-200 flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle"></i> Buat Pesanan
+                    </a>
+                    @endif
+
+                    @php $unreadCount = auth()->user()->unreadNotifications()->count(); @endphp
+                    <!-- Notifications -->
+                    <div class="relative group">
+                        <a href="{{ route('notifications.index') }}" class="relative flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 bg-white text-slate-600 hover:text-brand-600 hover:border-brand-200 transition" title="Notifikasi">
+                            <i class="fa-regular fa-bell text-base"></i>
+                            @if($unreadCount > 0)
+                            <span class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center">
+                                {{ $unreadCount > 9 ? '9+' : $unreadCount }}
+                            </span>
+                            @endif
                         </a>
-                        <a href="{{ route('register') }}" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-accent-600 text-white font-semibold text-sm shadow-md shadow-brand-500/25 hover:shadow-lg hover:shadow-brand-500/40 hover:-translate-y-0.5 transition duration-200">
-                            Daftar Sekarang
-                        </a>
+                        <div class="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 hidden group-hover:block transition duration-200">
+                            <div class="px-4 py-2 border-b border-slate-100 flex justify-between items-center">
+                                <p class="text-xs font-bold text-slate-900">Notifikasi Terbaru</p>
+                                <a href="{{ route('notifications.index') }}" class="text-[10px] font-bold text-brand-600 hover:underline">Lihat semua</a>
+                            </div>
+                            @forelse(auth()->user()->notifications()->latest()->take(5)->get() as $notif)
+                            <div class="px-4 py-2.5 border-b border-slate-50 last:border-0 {{ $notif->is_read ? '' : 'bg-blue-50/40' }}">
+                                <div class="flex items-start gap-2">
+                                    @if(!$notif->is_read)
+                                    <span class="w-1.5 h-1.5 rounded-full bg-brand-600 mt-1.5 flex-shrink-0"></span>
+                                    @endif
+                                    <div>
+                                        <p class="text-[11px] font-bold text-slate-900 leading-snug">{{ $notif->title }}</p>
+                                        <p class="text-[10px] text-slate-500 mt-0.5 leading-snug">{{ \Illuminate\Support\Str::limit($notif->message, 70) }}</p>
+                                        <span class="text-[9px] text-slate-400">{{ $notif->created_at->diffForHumans() }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            @empty
+                            <p class="px-4 py-6 text-center text-xs text-slate-400">Belum ada notifikasi.</p>
+                            @endforelse
+                        </div>
+                    </div>
+
+                    <!-- User Profile Dropdown -->
+                    <div class="relative group">
+                        <button class="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-full border border-slate-200 hover:border-slate-300 bg-white">
+                            <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" class="w-8 h-8 rounded-full object-cover">
+                            <span class="text-xs font-semibold text-slate-700 max-w-[100px] truncate">{{ auth()->user()->name }}</span>
+                            <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 hidden group-hover:block transition duration-200">
+                            <div class="px-4 py-2 border-b border-slate-100">
+                                <p class="text-xs font-bold text-slate-900 truncate">{{ auth()->user()->name }}</p>
+                                <p class="text-[11px] text-slate-500 truncate">{{ auth()->user()->email }}</p>
+                                @if(auth()->user()->isCustomer() && auth()->user()->customer)
+                                <p class="text-[10px] text-amber-600 font-bold mt-1">
+                                    <i class="fa-solid fa-crown mr-1"></i>{{ auth()->user()->customer->membership_label }}
+                                    &middot; {{ number_format(auth()->user()->customer->loyalty_points, 0, ',', '.') }} poin
+                                </p>
+                                @endif
+                            </div>
+                            <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50">
+                                <i class="fa-regular fa-user mr-2 text-slate-400"></i> Edit Profil
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="w-full text-left px-4 py-2 text-xs font-medium text-rose-600 hover:bg-rose-50">
+                                    <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Keluar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    @else
+                    <a href="{{ route('login') }}" class="px-4 py-2.5 rounded-xl text-slate-700 hover:text-brand-600 font-semibold text-sm transition">
+                        Masuk
+                    </a>
+                    <a href="{{ route('register') }}" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-accent-600 text-white font-semibold text-sm shadow-md shadow-brand-500/25 hover:shadow-lg hover:shadow-brand-500/40 hover:-translate-y-0.5 transition duration-200">
+                        Daftar Sekarang
+                    </a>
                     @endauth
                 </div>
 
@@ -162,63 +224,69 @@
             <a href="{{ route('tracking') }}" class="block text-slate-700 font-semibold text-sm py-2">Lacak Pesanan</a>
             <hr class="border-slate-100">
             @auth
-                @if(auth()->user()->isAdmin())
-                    <a href="{{ route('admin.dashboard') }}" class="block text-purple-600 font-bold text-sm py-2">Panel Admin</a>
-                @else
-                    <a href="{{ route('customer.orders.index') }}" class="block text-brand-600 font-semibold text-sm py-2">Pesanan Saya</a>
-                    <a href="{{ route('customer.orders.create') }}" class="block bg-brand-600 text-white text-center py-2.5 rounded-xl font-bold text-sm">Buat Pesanan Baru</a>
-                @endif
-                <form method="POST" action="{{ route('logout') }}" class="pt-2">
-                    @csrf
-                    <button type="submit" class="w-full text-left text-rose-600 font-semibold text-sm py-2">Keluar</button>
-                </form>
+            @if(auth()->user()->isAdmin())
+            <a href="{{ route('admin.dashboard') }}" class="block text-brand-600 font-bold text-sm py-2">Panel Admin</a>
             @else
-                <div class="grid grid-cols-2 gap-2 pt-2">
-                    <a href="{{ route('login') }}" class="text-center py-2.5 border border-slate-300 rounded-xl text-slate-700 font-semibold text-sm">Masuk</a>
-                    <a href="{{ route('register') }}" class="text-center py-2.5 bg-brand-600 text-white rounded-xl font-semibold text-sm">Daftar</a>
-                </div>
+            <a href="{{ route('customer.orders.index') }}" class="block text-brand-600 font-semibold text-sm py-2">Pesanan Saya</a>
+            <a href="{{ route('customer.orders.create') }}" class="block bg-brand-600 text-white text-center py-2.5 rounded-xl font-bold text-sm">Buat Pesanan Baru</a>
+            @endif
+            <a href="{{ route('notifications.index') }}" class="flex items-center justify-between text-slate-700 font-semibold text-sm py-2">
+                <span><i class="fa-regular fa-bell mr-2 text-brand-600"></i> Notifikasi</span>
+                @if($unreadCount > 0)
+                <span class="min-w-[20px] h-5 px-1.5 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
+                @endif
+            </a>
+            <form method="POST" action="{{ route('logout') }}" class="pt-2">
+                @csrf
+                <button type="submit" class="w-full text-left text-rose-600 font-semibold text-sm py-2">Keluar</button>
+            </form>
+            @else
+            <div class="grid grid-cols-2 gap-2 pt-2">
+                <a href="{{ route('login') }}" class="text-center py-2.5 border border-slate-300 rounded-xl text-slate-700 font-semibold text-sm">Masuk</a>
+                <a href="{{ route('register') }}" class="text-center py-2.5 bg-brand-600 text-white rounded-xl font-semibold text-sm">Daftar</a>
+            </div>
             @endauth
         </div>
     </header>
 
     <!-- Flash Messages -->
     @if(session('success'))
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-            <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-between shadow-sm animate-fade-in">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center flex-shrink-0">
-                        <i class="fa-solid fa-check text-sm"></i>
-                    </div>
-                    <span class="font-medium text-sm">{{ session('success') }}</span>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-between shadow-sm animate-fade-in">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-check text-sm"></i>
                 </div>
-                <button onclick="this.parentElement.remove()" class="text-emerald-500 hover:text-emerald-700"><i class="fa-solid fa-xmark"></i></button>
+                <span class="font-medium text-sm">{{ session('success') }}</span>
             </div>
+            <button onclick="this.parentElement.remove()" class="text-emerald-500 hover:text-emerald-700"><i class="fa-solid fa-xmark"></i></button>
         </div>
+    </div>
     @endif
 
     @if(session('error') || $errors->any())
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-            <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 flex items-center justify-between shadow-sm">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center flex-shrink-0">
-                        <i class="fa-solid fa-triangle-exclamation text-sm"></i>
-                    </div>
-                    <div class="text-sm">
-                        @if(session('error'))
-                            <p class="font-medium">{{ session('error') }}</p>
-                        @endif
-                        @if($errors->any())
-                            <ul class="list-disc list-inside text-xs mt-1">
-                                @foreach($errors->all() as $err)
-                                    <li>{{ $err }}</li>
-                                @endforeach
-                            </ul>
-                        @endif
-                    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 flex items-center justify-between shadow-sm">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-triangle-exclamation text-sm"></i>
                 </div>
-                <button onclick="this.parentElement.remove()" class="text-rose-500 hover:text-rose-700"><i class="fa-solid fa-xmark"></i></button>
+                <div class="text-sm">
+                    @if(session('error'))
+                    <p class="font-medium">{{ session('error') }}</p>
+                    @endif
+                    @if($errors->any())
+                    <ul class="list-disc list-inside text-xs mt-1">
+                        @foreach($errors->all() as $err)
+                        <li>{{ $err }}</li>
+                        @endforeach
+                    </ul>
+                    @endif
+                </div>
             </div>
+            <button onclick="this.parentElement.remove()" class="text-rose-500 hover:text-rose-700"><i class="fa-solid fa-xmark"></i></button>
         </div>
+    </div>
     @endif
 
     <!-- Main Content -->
@@ -309,4 +377,5 @@
     </script>
     @stack('scripts')
 </body>
+
 </html>

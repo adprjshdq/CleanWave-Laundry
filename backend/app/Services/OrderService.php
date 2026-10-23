@@ -14,13 +14,18 @@ class OrderService
 {
     const DELIVERY_FEE = 10000; // Rp 10.000
     const POINTS_PER_RUPIAH = 0.01; // 1% dari total = poin
+    const POINT_VALUE = 1; // 1 poin = Rp 1
+
+    public function __construct(private NotificationService $notifications)
+    {
+    }
 
     /**
      * Buat pesanan baru beserta items-nya.
      */
     public function createOrder(Customer $customer, array $data): Order
     {
-        return DB::transaction(function () use ($customer, $data) {
+        $order = DB::transaction(function () use ($customer, $data) {
             // Hitung subtotal dari items
             $subtotal = 0;
             $itemsData = [];
@@ -55,8 +60,13 @@ class OrderService
             // Ongkir
             $deliveryFee = ($data['pickup_method'] === 'pickup') ? self::DELIVERY_FEE : 0;
 
+            // Tukar poin loyalitas (1 poin = Rp 1), tidak melebihi sisa tagihan
+            $pointsRedeemed = max(0, (int) ($data['points_redeemed'] ?? 0));
+            $pointsRedeemed = min($pointsRedeemed, $customer->loyalty_points, (int) floor($subtotal - $discount));
+            $pointsDiscount = $pointsRedeemed * self::POINT_VALUE;
+
             // Total
-            $total = $subtotal - $discount + $deliveryFee;
+            $total = $subtotal - $discount - $pointsDiscount + $deliveryFee;
 
             // Buat Order
             $order = Order::create([
@@ -70,6 +80,7 @@ class OrderService
                 'notes'         => $data['notes'] ?? null,
                 'subtotal'      => $subtotal,
                 'discount'      => $discount,
+                'points_redeemed' => $pointsRedeemed,
                 'delivery_fee'  => $deliveryFee,
                 'total'         => $total,
             ]);
@@ -86,8 +97,16 @@ class OrderService
                 'amount'       => $total,
             ]);
 
+            if ($pointsRedeemed > 0) {
+                $customer->redeemLoyaltyPoints($pointsRedeemed);
+            }
+
             return $order;
         });
+
+        $this->notifications->newOrder($order->load('customer.user'));
+
+        return $order;
     }
 
     /**
@@ -95,6 +114,7 @@ class OrderService
      */
     public function updateStatus(Order $order, string $newStatus, ?int $employeeId = null): Order
     {
+        $oldStatus = $order->status;
         $update = ['status' => $newStatus];
 
         if ($employeeId) {
@@ -109,14 +129,32 @@ class OrderService
             $update['delivery_date'] = now();
         }
 
-        if ($newStatus === 'completed') {
-            // Berikan loyalty points
+        // Kembalikan poin & kuota kupon saat pesanan dibatalkan
+        if ($newStatus === 'cancelled' && $oldStatus !== 'cancelled') {
+            if ($order->points_redeemed > 0) {
+                $order->customer->addLoyaltyPoints($order->points_redeemed);
+            }
+
+            if ($order->coupon_id) {
+                Coupon::whereKey($order->coupon_id)
+                    ->where('used_count', '>', 0)
+                    ->decrement('used_count');
+            }
+        }
+
+        $order->update($update);
+
+        // Berikan loyalty points sekali saat pesanan selesai
+        if ($newStatus === 'completed' && $oldStatus !== 'completed') {
             $points = (int) floor($order->total * self::POINTS_PER_RUPIAH);
             $order->customer->addLoyaltyPoints($points);
         }
 
-        $order->update($update);
-        return $order->fresh();
+        $order->refresh()->loadMissing('customer.user');
+
+        $this->notifications->orderStatusChanged($order, $oldStatus, $newStatus);
+
+        return $order;
     }
 
     /**

@@ -10,6 +10,7 @@ use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Address;
 use App\Services\OrderService;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrderController extends Controller
 {
@@ -53,7 +54,7 @@ class OrderController extends Controller
 
         $addresses = $customer->addresses;
 
-        return view('customer.order.create', compact('categories', 'addresses'));
+        return view('customer.order.create', compact('categories', 'addresses', 'customer'));
     }
 
     public function store(Request $request)
@@ -66,10 +67,15 @@ class OrderController extends Controller
             'address_id' => 'nullable|exists:addresses,id',
             'notes' => 'nullable|string|max:500',
             'coupon_code' => 'nullable|string',
+            'points_redeemed' => 'nullable|integer|min:0',
             'payment_method' => 'required|in:qris,transfer,cash',
         ]);
 
         $customer = $this->currentCustomer();
+
+        if (($request->points_redeemed ?? 0) > $customer->loyalty_points) {
+            return back()->withErrors(['points_redeemed' => 'Poin yang ingin ditukar melebihi saldo poin Anda.'])->withInput();
+        }
 
         // If pickup method is pickup and no address is chosen, validate new address if provided
         $addressId = $request->address_id;
@@ -116,8 +122,21 @@ class OrderController extends Controller
             return back()->with('error', 'Pesanan sudah diproses dan tidak dapat dibatalkan.');
         }
 
-        $order->update(['status' => 'cancelled']);
+        $this->orderService->updateStatus($order, 'cancelled');
 
         return back()->with('success', 'Pesanan berhasil dibatalkan.');
+    }
+
+    public function invoice($id)
+    {
+        $customer = $this->currentCustomer();
+
+        $order = Order::with(['customer.user', 'items.service', 'payment', 'coupon', 'address'])
+            ->where('customer_id', $customer->id)
+            ->findOrFail($id);
+
+        $pdf = Pdf::loadView('pdf.invoice', compact('order'))->setPaper('a4');
+
+        return $pdf->download('Invoice-' . $order->order_code . '.pdf');
     }
 }

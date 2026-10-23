@@ -21,10 +21,10 @@
             @csrf
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                
+
                 <!-- Left Column: Form Steps (8 Cols) -->
                 <div class="lg:col-span-8 space-y-8">
-                    
+
                     <!-- STEP 1: Pilih Layanan -->
                     <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm space-y-6">
                         <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
@@ -38,38 +38,38 @@
                         <!-- Services List by Category -->
                         @php $serviceIndex = 0; @endphp
                         @foreach($categories as $cat)
-                            <div class="space-y-3">
-                                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-2">
-                                    <i class="fa-solid {{ $cat->icon ?? 'fa-basket-shopping' }} text-brand-600"></i> {{ $cat->name }}
-                                </h3>
+                        <div class="space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-2">
+                                <i class="fa-solid {{ $cat->icon ?? 'fa-basket-shopping' }} text-brand-600"></i> {{ $cat->name }}
+                            </h3>
 
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    @foreach($cat->activeServices as $svc)
-                                        <div class="p-4 rounded-2xl border border-slate-200 hover:border-brand-400 bg-white hover:bg-blue-50/20 transition service-card flex flex-col justify-between">
-                                            <div>
-                                                <div class="flex items-start justify-between">
-                                                    <label class="font-bold text-sm text-slate-900 cursor-pointer flex items-center gap-2">
-                                                        <input type="checkbox" class="service-checkbox rounded text-brand-600 focus:ring-brand-500 w-4 h-4" data-id="{{ $svc->id }}" data-price="{{ $svc->price_per_unit }}" data-name="{{ $svc->name }}" data-unit="{{ $svc->unit }}">
-                                                        <span>{{ $svc->name }}</span>
-                                                    </label>
-                                                </div>
-                                                <p class="text-xs text-slate-500 mt-1 pl-6">{{ $svc->description }}</p>
-                                            </div>
-
-                                            <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between pl-6">
-                                                <span class="text-xs font-bold text-brand-600">
-                                                    Rp {{ number_format($svc->price_per_unit, 0, ',', '.') }} / {{ $svc->unit }}
-                                                </span>
-                                                
-                                                <div class="qty-wrapper hidden items-center gap-1.5">
-                                                    <input type="number" step="0.5" min="0.5" value="1" class="qty-input w-20 px-2 py-1 rounded-lg border border-slate-300 text-xs text-center font-bold" data-id="{{ $svc->id }}">
-                                                    <span class="text-xs text-slate-500">{{ $svc->unit }}</span>
-                                                </div>
-                                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                @foreach($cat->activeServices as $svc)
+                                <div class="p-4 rounded-2xl border border-slate-200 hover:border-brand-400 bg-white hover:bg-blue-50/20 transition service-card flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex items-start justify-between">
+                                            <label class="font-bold text-sm text-slate-900 cursor-pointer flex items-center gap-2">
+                                                <input type="checkbox" class="service-checkbox rounded text-brand-600 focus:ring-brand-500 w-4 h-4" data-id="{{ $svc->id }}" data-price="{{ $svc->price_per_unit }}" data-name="{{ $svc->name }}" data-unit="{{ $svc->unit }}">
+                                                <span>{{ $svc->name }}</span>
+                                            </label>
                                         </div>
-                                    @endforeach
+                                        <p class="text-xs text-slate-500 mt-1 pl-6">{{ $svc->description }}</p>
+                                    </div>
+
+                                    <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between pl-6">
+                                        <span class="text-xs font-bold text-brand-600">
+                                            Rp {{ number_format($svc->price_per_unit, 0, ',', '.') }} / {{ $svc->unit }}
+                                        </span>
+
+                                        <div class="qty-wrapper hidden items-center gap-1.5">
+                                            <input type="number" step="0.5" min="0.5" value="1" class="qty-input w-20 px-2 py-1 rounded-lg border border-slate-300 text-xs text-center font-bold" data-id="{{ $svc->id }}">
+                                            <span class="text-xs text-slate-500">{{ $svc->unit }}</span>
+                                        </div>
+                                    </div>
                                 </div>
+                                @endforeach
                             </div>
+                        </div>
                         @endforeach
 
                         <!-- Hidden Inputs Container for items array -->
@@ -112,19 +112,19 @@
                         <!-- Address Section (Shown when pickup is selected) -->
                         <div id="addressSection" class="space-y-4 pt-4 border-t border-slate-100">
                             <h3 class="text-sm font-bold text-slate-900">Alamat Penjemputan</h3>
-                            
+
                             @if(count($addresses) > 0)
-                                <div class="space-y-2">
-                                    @foreach($addresses as $addr)
-                                        <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-brand-400 cursor-pointer bg-white">
-                                            <input type="radio" name="address_id" value="{{ $addr->id }}" {{ $addr->is_default ? 'checked' : '' }} class="mt-1 text-brand-600">
-                                            <div>
-                                                <span class="font-bold text-xs text-slate-900">{{ $addr->label }}</span>
-                                                <p class="text-xs text-slate-600">{{ $addr->full_address }}, {{ $addr->city }}</p>
-                                            </div>
-                                        </label>
-                                    @endforeach
-                                </div>
+                            <div class="space-y-2">
+                                @foreach($addresses as $addr)
+                                <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-brand-400 cursor-pointer bg-white">
+                                    <input type="radio" name="address_id" value="{{ $addr->id }}" {{ $addr->is_default ? 'checked' : '' }} class="mt-1 text-brand-600">
+                                    <div>
+                                        <span class="font-bold text-xs text-slate-900">{{ $addr->label }}</span>
+                                        <p class="text-xs text-slate-600">{{ $addr->full_address }}, {{ $addr->city }}</p>
+                                    </div>
+                                </label>
+                                @endforeach
+                            </div>
                             @endif
 
                             <!-- Quick Input New Address -->
@@ -207,6 +207,26 @@
                             <p id="couponMsg" class="text-[11px] mt-1 hidden"></p>
                         </div>
 
+                        <!-- Loyalty Points Redemption -->
+                        <div class="pt-3 border-t border-slate-100">
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="block text-xs font-semibold text-slate-700">Tukar Poin Loyalitas</label>
+                                <span class="text-[11px] font-bold text-amber-600">
+                                    <i class="fa-solid fa-coins mr-1"></i>{{ number_format($customer->loyalty_points, 0, ',', '.') }} poin
+                                </span>
+                            </div>
+
+                            @if($customer->loyalty_points > 0)
+                            <div class="flex gap-2">
+                                <input type="number" id="pointsInput" name="points_redeemed" value="0" min="0" max="{{ (int) $customer->loyalty_points }}" step="1" class="w-full rounded-xl border border-slate-300 text-xs px-3 py-2 font-bold">
+                                <button type="button" id="applyPointsBtn" class="px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs whitespace-nowrap">Pakai Semua</button>
+                            </div>
+                            <p class="text-[10px] text-slate-400 mt-1">1 poin = Rp 1. Poin otomatis dibatasi sesuai sisa tagihan.</p>
+                            @else
+                            <p class="text-[11px] text-slate-400">Belum ada poin yang bisa ditukar. Selesaikan pesanan untuk mengumpulkan poin.</p>
+                            @endif
+                        </div>
+
                         <!-- Calculation Breakdown -->
                         <div class="space-y-2 pt-3 border-t border-slate-100 text-xs text-slate-600">
                             <div class="flex justify-between">
@@ -216,6 +236,10 @@
                             <div class="flex justify-between text-emerald-600">
                                 <span>Diskon:</span>
                                 <span id="summaryDiscount" class="font-bold">- Rp 0</span>
+                            </div>
+                            <div class="flex justify-between text-emerald-600 hidden" id="pointsRow">
+                                <span>Tukar Poin (<span id="pointsUsedLabel">0</span>):</span>
+                                <span id="summaryPoints" class="font-bold">- Rp 0</span>
                             </div>
                             <div class="flex justify-between">
                                 <span>Ongkir Antar-Jemput:</span>
@@ -245,9 +269,9 @@
 
 @push('scripts')
 <script>
-document(() => {
-    // Interactivity scripts
-});
+    document(() => {
+        // Interactivity scripts
+    });
 </script>
 <script>
     const checkboxes = document.querySelectorAll('.service-checkbox');
@@ -263,6 +287,12 @@ document(() => {
     const couponInput = document.getElementById('couponInput');
     const applyCouponBtn = document.getElementById('applyCouponBtn');
     const couponMsg = document.getElementById('couponMsg');
+    const pointsInput = document.getElementById('pointsInput');
+    const applyPointsBtn = document.getElementById('applyPointsBtn');
+    const pointsRow = document.getElementById('pointsRow');
+    const pointsUsedLabel = document.getElementById('pointsUsedLabel');
+    const summaryPoints = document.getElementById('summaryPoints');
+    const pointsBalance = {{ (int) $customer->loyalty_points }};
 
     let deliveryFee = 10000;
     let discount = 0;
@@ -311,11 +341,19 @@ document(() => {
     applyCouponBtn.addEventListener('click', () => {
         const code = couponInput.value.trim().toUpperCase();
         if (code === 'CLEANWAVE10') {
-            appliedCoupon = { code: 'CLEANWAVE10', type: 'percentage', val: 10 };
+            appliedCoupon = {
+                code: 'CLEANWAVE10',
+                type: 'percentage',
+                val: 10
+            };
             couponMsg.className = 'text-[11px] mt-1 text-emerald-600 font-bold block';
             couponMsg.textContent = '✅ Kupon diskon 10% berhasil diterapkan!';
         } else if (code === 'HEMAT15K') {
-            appliedCoupon = { code: 'HEMAT15K', type: 'fixed', val: 15000 };
+            appliedCoupon = {
+                code: 'HEMAT15K',
+                type: 'fixed',
+                val: 15000
+            };
             couponMsg.className = 'text-[11px] mt-1 text-emerald-600 font-bold block';
             couponMsg.textContent = '✅ Kupon potongan Rp 15.000 berhasil diterapkan!';
         } else {
@@ -325,6 +363,28 @@ document(() => {
         }
         updateSummary();
     });
+
+    // Loyalty points redemption
+    if (pointsInput) {
+        pointsInput.addEventListener('input', updateSummary);
+    }
+
+    if (applyPointsBtn) {
+        applyPointsBtn.addEventListener('click', () => {
+            let subtotal = 0;
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    const card = cb.closest('.service-card');
+                    const qty = parseFloat(card.querySelector('.qty-input').value) || 1;
+                    subtotal += qty * parseFloat(cb.dataset.price);
+                }
+            });
+
+            const remaining = Math.max(0, subtotal - discount);
+            pointsInput.value = Math.min(pointsBalance, Math.floor(remaining));
+            updateSummary();
+        });
+    }
 
     function formatRupiah(num) {
         return 'Rp ' + Math.round(num).toLocaleString('id-ID');
@@ -388,10 +448,30 @@ document(() => {
             discount = 0;
         }
 
-        const grandTotal = Math.max(0, subtotal - discount + deliveryFee);
+        // Loyalty points
+        let pointsRedeemed = 0;
+        if (pointsInput) {
+            const maxPoints = Math.max(0, Math.min(pointsBalance, Math.floor(subtotal - discount)));
+            pointsRedeemed = Math.min(Math.max(0, parseInt(pointsInput.value) || 0), maxPoints);
+
+            if (parseInt(pointsInput.value) > maxPoints) {
+                pointsInput.value = maxPoints;
+            }
+        }
+
+        const grandTotal = Math.max(0, subtotal - discount - pointsRedeemed + deliveryFee);
 
         summarySubtotal.textContent = formatRupiah(subtotal);
         summaryDiscount.textContent = '- ' + formatRupiah(discount);
+
+        if (pointsRedeemed > 0) {
+            pointsRow.classList.remove('hidden');
+            pointsUsedLabel.textContent = pointsRedeemed.toLocaleString('id-ID');
+            summaryPoints.textContent = '- ' + formatRupiah(pointsRedeemed);
+        } else {
+            pointsRow.classList.add('hidden');
+        }
+
         summaryDelivery.textContent = formatRupiah(deliveryFee);
         summaryTotal.textContent = formatRupiah(grandTotal);
     }

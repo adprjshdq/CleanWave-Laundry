@@ -6,9 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Services\NotificationService;
 
 class PaymentController extends Controller
 {
+    public function __construct(private NotificationService $notifications)
+    {
+    }
+
     public function uploadProof(Request $request, $orderId)
     {
         $request->validate([
@@ -31,6 +36,9 @@ class PaymentController extends Controller
             'proof_image' => $path,
             'status' => 'pending_verification',
         ]);
+
+        $payment->load('order.customer.user');
+        $this->notifications->paymentProofUploaded($payment);
 
         return back()->with('success', 'Bukti pembayaran berhasil diunggah! Menunggu verifikasi admin.');
     }

@@ -41,6 +41,18 @@ class Customer extends Model
     public function addLoyaltyPoints(int $points): void
     {
         $this->increment('loyalty_points', $points);
+        $this->refresh();
+        $this->updateMembershipLevel();
+    }
+
+    public function redeemLoyaltyPoints(int $points): void
+    {
+        if ($points <= 0) {
+            return;
+        }
+
+        $this->decrement('loyalty_points', min($points, $this->loyalty_points));
+        $this->refresh();
         $this->updateMembershipLevel();
     }
 
@@ -63,5 +75,51 @@ class Customer extends Model
             'silver'   => '#9CA3AF',
             default    => '#92400E',
         };
+    }
+
+    public function getMembershipLabelAttribute(): string
+    {
+        return match($this->membership_level) {
+            'platinum' => 'Platinum',
+            'gold'     => 'Gold',
+            'silver'   => 'Silver',
+            default    => 'Bronze',
+        };
+    }
+
+    public function getNextTierAttribute(): ?array
+    {
+        $tiers = [
+            'silver'   => 1000,
+            'gold'     => 5000,
+            'platinum' => 10000,
+        ];
+
+        foreach ($tiers as $name => $threshold) {
+            if ($this->loyalty_points < $threshold) {
+                return ['name' => ucfirst($name), 'points' => $threshold];
+            }
+        }
+
+        return null;
+    }
+
+    public function getMembershipProgressAttribute(): int
+    {
+        $thresholds = [
+            'bronze'   => 0,
+            'silver'   => 1000,
+            'gold'     => 5000,
+            'platinum' => 10000,
+        ];
+
+        $current = $thresholds[$this->membership_level] ?? 0;
+        $next = $this->next_tier['points'] ?? null;
+
+        if (! $next || $next <= $current) {
+            return 100;
+        }
+
+        return (int) round((($this->loyalty_points - $current) / ($next - $current)) * 100);
     }
 }
